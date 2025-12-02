@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Gastos IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-wallet"></i> Mis Gastos</h1>
+            <p class="subtitle">Gestiona tus finanzas con lenguaje natural</p>
+            <button id="configBtn" class="config-btn"><i class="fa-solid fa-cloud"></i> Sync</button>
+        </header>
+
+        <!-- Config Modal -->
+        <div id="configModal" class="modal hidden">
+            <div class="modal-content card">
+                <h3>Configuración de Google Sheets</h3>
+                <p>Ingresa la URL de tu Web App de Google Apps Script:</p>
+                <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/..." />
+                <div class="modal-actions">
+                    <button id="saveConfigBtn" class="primary-btn">Guardar</button>
+                    <button id="cancelConfigBtn" class="text-btn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <!-- Input Section -->
+            <section class="card input-section">
+                <h2>Registrar Gasto</h2>
+                <div class="input-wrapper">
+                    <textarea id="expenseInput" placeholder="Ej: 500 comida&#10;1200 taxi ayer..."></textarea>
+                    <button id="addBtn" class="primary-btn"><i class="fa-solid fa-paper-plane"></i> Agregar</button>
+                </div>
+                <div id="feedback" class="feedback-msg"></div>
+            </section>
+
+            <!-- Chart Section -->
+            <section class="card chart-section">
+                <div class="chart-header">
+                    <h2>Resumen Visual</h2>
+                    <div class="chart-filters">
+                        <button class="filter-btn active" data-filter="last30">Últimos 30 días</button>
+                        <button class="filter-btn" data-filter="month">Este Mes</button>
+                    </div>
+                </div>
+                <div class="charts-wrapper">
+                    <div class="chart-container">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                    <div class="chart-container doughnut-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="card history-section">
+                <div class="history-header">
+                    <h2>Historial</h2>
+                    <button id="clearBtn" class="text-btn">Borrar Todo</button>
+                </div>
+                <ul id="expenseList" class="expense-list">
+                    <!-- Items will be injected here -->
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
