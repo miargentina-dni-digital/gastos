@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ingresar gasto</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { font-size: 1.2rem; padding: 12px; width: 100%; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Registrar gasto</h2>
+  <form action="https://ngatest123.app.n8n.cloud/webhook-test/gastos" method="POST">
+    <input type="text" name="texto" placeholder="Ej: gasté 3500 en comida ayer" required />
+    <button type="submit">Enviar</button>
+  </form>
+
+</body>
+</html>
