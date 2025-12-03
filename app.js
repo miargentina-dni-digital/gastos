@@ -54,6 +54,8 @@ const clearBtn = document.getElementById('clearBtn');
 const ctx = document.getElementById('expenseChart').getContext('2d');
 const ctxDoughnut = document.getElementById('categoryChart').getContext('2d');
 const filterBtns = document.querySelectorAll('.filter-btn');
+const totalLabel = document.getElementById('totalLabel');
+const totalAmount = document.getElementById('totalAmount');
 
 // Modal Elements
 const configBtn = document.getElementById('configBtn');
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         renderExpenses();
         renderCharts();
+        renderTotal();
     }
 });
 
@@ -83,6 +86,7 @@ filterBtns.forEach(btn => {
         e.target.classList.add('active');
         currentFilter = e.target.dataset.filter;
         updateCharts();
+        renderTotal();
     });
 });
 
@@ -134,6 +138,7 @@ function handleAddExpense() {
         saveExpenses();
         renderExpenses();
         updateCharts();
+        renderTotal();
         expenseInput.value = '';
 
         if (failedCount > 0) {
@@ -170,22 +175,18 @@ async function syncDown() {
         const data = await response.json();
 
         if (Array.isArray(data)) {
-            // Merge strategy: Server wins or Union? 
-            // For simplicity, let's assume server is source of truth if we are syncing.
-            // But we might have local unsynced data.
-            // Let's just replace local with server data for now to avoid duplicates if ID matches.
-
             expenses = data;
             saveExpenses();
             renderExpenses();
             renderCharts();
+            renderTotal();
             showFeedback('Sincronizado con Google Sheets', 'success');
         }
     } catch (error) {
         console.error('Sync down failed:', error);
-        // Fallback to local data
         renderExpenses();
         renderCharts();
+        renderTotal();
     }
 }
 
@@ -315,6 +316,7 @@ function clearAllExpenses() {
         saveExpenses();
         renderExpenses();
         updateCharts();
+        renderTotal();
         showFeedback('Historial borrado', 'success');
     }
 }
@@ -327,6 +329,7 @@ function handleDeleteItem(e) {
         saveExpenses();
         renderExpenses();
         updateCharts();
+        renderTotal();
     }
 }
 
@@ -347,6 +350,20 @@ function getFilteredExpenses() {
         }
         return true;
     });
+}
+
+function renderTotal() {
+    const filtered = getFilteredExpenses();
+    const total = filtered.reduce((sum, exp) => sum + exp.amount, 0);
+
+    const totalStr = total.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
+    totalAmount.textContent = totalStr;
+
+    if (currentFilter === 'last30') {
+        totalLabel.textContent = 'Total Últimos 30 días';
+    } else {
+        totalLabel.textContent = 'Total Este Mes';
+    }
 }
 
 function showFeedback(msg, type) {

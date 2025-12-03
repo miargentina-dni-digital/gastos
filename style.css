@@ -138,6 +138,20 @@ h2 {
     color: var(--accent);
 }
 
+/* Total Section */
+.total-section {
+    text-align: center;
+    padding: 25px;
+}
+
+.total-amount {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 5px;
+    text-shadow: 0 0 20px rgba(108, 99, 255, 0.3);
+}
+
 /* Input Section */
 .input-wrapper {
     display: flex;
